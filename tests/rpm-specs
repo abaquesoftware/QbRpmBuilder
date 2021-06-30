@@ -1,0 +1,75 @@
+Name: qbrbtest      
+Version: ##VERSION##
+Release: 0
+Summary: Test
+License: Test
+
+%description
+Test
+
+%prep
+# we have no source, so nothing here
+
+cat > /tmp/hello-world.sh <<EOF
+#!/usr/bin/env bash
+echo Hello world - version ##VERSION##
+EOF
+chmod 755 /tmp/hello-world.sh
+
+%clean
+
+%install
+cd "%{buildroot}"
+mkdir -p "%{buildroot}/RPMS"
+mkdir -p "%{buildroot}/BUILD"
+mkdir -p "%{buildroot}/opt/abaque/qbrbtest"
+cp /tmp/hello-world.sh %{buildroot}/opt/abaque/qbrbtest/hello-world.sh
+
+%files
+/opt/abaque/qbrbtest/hello-world.sh
+
+%changelog
+# let's skip this for now
+
+%pretrans
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+echo "xxxxxxxxxx call PRETRANS of package VERSION=##VERSION## - PARAM1=$1 - PARAM2=$2"
+echo "xxxxxxxxxx PERCENT: %"
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+exit 0
+
+%posttrans
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+echo "xxxxxxxxxx call POSTTRANS of package VERSION=##VERSION## - PARAM1=$1 - PARAM2=$2"
+echo "xxxxxxxxxx PERCENT: %"
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+exit 0
+
+%pre
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+echo "xxxxxxxxxx call PRE of package VERSION=##VERSION## - PARAM1=$1 - PARAM2=$2"
+echo "xxxxxxxxxx PERCENT: %"
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+exit 0
+
+%post
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+echo "xxxxxxxxxx call POST of package VERSION=##VERSION## - PARAM1=$1 - PARAM2=$2"
+echo "xxxxxxxxxx PERCENT: %"
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+exit 0
+
+%preun
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+echo "xxxxxxxxxx call PREUN of package VERSION=##VERSION## - PARAM1=$1 - PARAM2=$2"
+echo "xxxxxxxxxx PERCENT: %"
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+exit 0
+
+%postun
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+echo "xxxxxxxxxx call POSTUN of package VERSION=##VERSION## - PARAM1=$1 - PARAM2=$2"
+echo "xxxxxxxxxx PERCENT: %"
+echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+exit 0
+
