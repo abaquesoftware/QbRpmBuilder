@@ -14,7 +14,7 @@ set -e
 [ ! -d "./opt_abaque_QbRpmBuilder/bin" ] && ( echo "ERROR: Cannot find directory './opt_abaque_QbRpmBuilder/bin'" ; exit 1 )
 
 packagename="qbrpmbuilder"
-version="0.0.1"
+version="1.0.1"
 name="Abaque <abaque@abaquesoftware.com>"
 comment="Updated to version ${version}"
 
@@ -22,9 +22,13 @@ DISTRIB="_UNKNOWN_"
 [ -e /etc/debian_version ] && DISTRIB="debian"
 [ -e /etc/redhat-release ] && DISTRIB="rpm"
 
+# Check missing pacakge
+[ "$DISTRIB" = "rpm" ] && yum install -y rpmdevtools
+
 # delete previous debian directory and recreate it
 [ -e "${DISTRIB}" ] && rm -rf "${DISTRIB}"
 mkdir "${DISTRIB}"
+mkdir -p "./dist-${DISTRIB}"
 
 # --------------------------------
 # Changelog file
@@ -111,7 +115,10 @@ set -e
 if [ "\$1" = "configure" ] ; then
   mkdir -p "/etc/QbRpmBuilder"
   mkdir -p "/var/lib/qbrb-cache"
-  [ ! -e "/etc/QbRpmBuilder/QbRpmBuilder.conf" -o -z "\$( cat /etc/QbRpmBuilder/QbRpmBuilder.conf )" ] && cp "/opt/abaque/QbRpmBuilder/default-conf/QbRpmBuilder.conf" "/etc/QbRpmBuilder/QbRpmBuilder.conf"
+  if [ ! -e "/etc/QbRpmBuilder/QbRpmBuilder.conf" -o -z "\$( cat /etc/QbRpmBuilder/QbRpmBuilder.conf )" ] ; then
+     mkdir -p "/etc/QbRpmBuilder"
+     cp "/opt/abaque/QbRpmBuilder/default-conf/QbRpmBuilder.conf" "/etc/QbRpmBuilder/QbRpmBuilder.conf"
+  fi
 fi
 #DEBHELPER#
 exit 0
